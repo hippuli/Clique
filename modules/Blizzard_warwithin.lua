@@ -1,7 +1,7 @@
 --[[-------------------------------------------------------------------------
--- Blizzard_dragonflight.lua
+-- Blizzard_warwithin.lua
 --
--- Blizzard frame integration for the Retail branch updated for Dragonflight
+-- Blizzard frame integration for the Retail branch for The War Within
 -------------------------------------------------------------------------]]--
 
 ---@class addon
@@ -9,23 +9,21 @@ local addon = select(2, ...)
 local L = addon.L
 
 -- Only load if this is Retail AND Dragonflight
-if not (addon:ProjectIsRetail() and addon:ProjectIsDragonflight()) then
+if not (addon:ProjectIsRetail() and addon:ProjectIsWarWithin()) then
     return
 end
 
---addon:Printf("Loading Blizzard_dragonflight integration")
-
 function addon:IntegrateBlizzardFrames()
-    self:MidnightPlayerFrame()
+    self:DragonflightPlayerFrame()
     self:DragonflightTargetFrame()
     self:DragonflightFocusFrame()
-
     self:DragonflightPartyFrame()
+
     self:DragonflightCompactRaidFrames()
     self:DragonflightBossFrames()
 end
 
-function addon:MidnightPlayerFrame()
+function addon:DragonflightPlayerFrame()
     if addon.settings.blizzframes.PlayerFrame then
         self:RegisterBlizzardFrame("PlayerFrame")
     end
@@ -71,10 +69,10 @@ function addon:DragonflightPartyFrame()
                 addon:RegisterBlizzardFrame(memberFrame.PetFrame)
             end
 
-            -- This is an ipairs for some reason
-            for _, memberFrame in partyframe.PartyMemberFramePool:EnumerateInactive() do
-                addon:RegisterBlizzardFrame(memberFrame)
-            end
+            -- -- This is an ipairs for some reason
+            -- for _, memberFrame in partyframe.PartyMemberFramePool:EnumerateInactive() do
+            --     addon:RegisterBlizzardFrame(memberFrame)
+            -- end
         end
     end
 

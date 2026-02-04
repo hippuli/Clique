@@ -1,7 +1,7 @@
 --[[-------------------------------------------------------------------------
--- Blizzard_dragonflight.lua
+-- Blizzard_warwithin.lua
 --
--- Blizzard frame integration for the Retail branch updated for Dragonflight
+-- Blizzard frame integration for the Retail branch for The War Within
 -------------------------------------------------------------------------]]--
 
 ---@class addon
@@ -9,23 +9,27 @@ local addon = select(2, ...)
 local L = addon.L
 
 -- Only load if this is Retail AND Dragonflight
-if not (addon:ProjectIsRetail() and addon:ProjectIsDragonflight()) then
+if not (addon:ProjectIsRetail() and addon:ProjectIsMidnight()) then
     return
 end
 
---addon:Printf("Loading Blizzard_dragonflight integration")
+local module = {}
 
 function addon:IntegrateBlizzardFrames()
-    self:MidnightPlayerFrame()
-    self:DragonflightTargetFrame()
-    self:DragonflightFocusFrame()
+    module:MidnightPlayerFrame()
+    module:MidnightTargetFrame()
+    module:MidnightFocusFrame()
+    module:MidnightPartyFrame()
 
-    self:DragonflightPartyFrame()
-    self:DragonflightCompactRaidFrames()
-    self:DragonflightBossFrames()
+    module:MidnightCompactRaidFrames()
+    module:MidnightBossFrames()
 end
 
-function addon:MidnightPlayerFrame()
+function module:RegisterBlizzardFrame(...)
+    return addon:RegisterBlizzardFrame(...)
+end
+
+function module:MidnightPlayerFrame()
     if addon.settings.blizzframes.PlayerFrame then
         self:RegisterBlizzardFrame("PlayerFrame")
     end
@@ -35,7 +39,7 @@ function addon:MidnightPlayerFrame()
     end
 end
 
-function addon:DragonflightTargetFrame()
+function module:MidnightTargetFrame()
     if addon.settings.blizzframes.TargetFrame then
         self:RegisterBlizzardFrame("TargetFrame")
     end
@@ -45,7 +49,7 @@ function addon:DragonflightTargetFrame()
     end
 end
 
-function addon:DragonflightFocusFrame()
+function module:MidnightFocusFrame()
     if addon.settings.blizzframes.FocusFrame then
         self:RegisterBlizzardFrame("FocusFrame")
     end
@@ -55,7 +59,7 @@ function addon:DragonflightFocusFrame()
     end
 end
 
-function addon:DragonflightPartyFrame()
+function module:MidnightPartyFrame()
     if not addon.settings.blizzframes.party then
         return
     end
@@ -71,10 +75,10 @@ function addon:DragonflightPartyFrame()
                 addon:RegisterBlizzardFrame(memberFrame.PetFrame)
             end
 
-            -- This is an ipairs for some reason
-            for _, memberFrame in partyframe.PartyMemberFramePool:EnumerateInactive() do
-                addon:RegisterBlizzardFrame(memberFrame)
-            end
+            -- -- This is an ipairs for some reason
+            -- for _, memberFrame in partyframe.PartyMemberFramePool:EnumerateInactive() do
+            --     addon:RegisterBlizzardFrame(memberFrame)
+            -- end
         end
     end
 
@@ -96,7 +100,7 @@ local function enableCompactUnitFrame(name)
     addon:RegisterBlizzardFrame(name .. "CenterStatusIcon")
 end
 
-function addon:DragonflightCompactRaidFrames()
+function module:MidnightCompactRaidFrames()
     if not addon.settings.blizzframes.compactraid then
         return
     end
@@ -111,7 +115,7 @@ function addon:DragonflightCompactRaidFrames()
     end)
 end
 
-function addon:DragonflightBossFrames()
+function module:MidnightBossFrames()
     if not addon.settings.blizzframes.boss then
         return
     end

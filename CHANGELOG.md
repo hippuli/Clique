@@ -1,6 +1,7 @@
 # Clique
 
-## [v3.5.5-release](https://github.com/jnwhiteh/Clique/tree/v3.5.5-release) (2023-11-09)
-[Full Changelog](https://github.com/jnwhiteh/Clique/compare/v3.5.4-release...v3.5.5-release) [Previous Releases](https://github.com/jnwhiteh/Clique/releases)
+## [v4.3.4-release](https://github.com/jnwhiteh/Clique/tree/v4.3.4-release) (2026-01-26)
+[Full Changelog](https://github.com/jnwhiteh/Clique/compare/v4.3.3-release...v4.3.4-release) [Previous Releases](https://github.com/jnwhiteh/Clique/releases)
 
-- Update TOC for 10.2.0  
+- Fix housing editor error message  
+- Fix an issue with double-clicking to edit  

@@ -9,16 +9,16 @@
 --   * ADDON_LOADED - To watch for loading of the ArenaUI
 -------------------------------------------------------------------------]]--
 
-local addonName, addon = ...
+---@class addon
+local addon = select(2, ...)
 local L = addon.L
 
 -- Only load if this is Wrath
-if not addon:ProjectIsWrath() then
+if not (addon:ProjectIsWrath() or addon:ProjectIsCataclysm() or addon:ProjectIsMists()) then
     return
 end
 
---addon:Printf("Loading Blizzard_wrath integration")
-
+---@diagnostic disable-next-line: duplicate-set-field
 function addon:IntegrateBlizzardFrames()
     self:Wrath_BlizzSelfFrames()
 
@@ -56,7 +56,7 @@ function addon:Wrath_BlizzSelfFrames()
     -- Add focus frames for Wrath
     table.insert(frames, "FocusFrame")
     table.insert(frames, "FocusFrameToT")
-    
+
     for idx, frame in ipairs(frames) do
         if addon.settings.blizzframes[frame] then
             addon:RegisterBlizzardFrame(frame)
@@ -71,13 +71,13 @@ function addon:Wrath_BlizzPartyFrames()
 
     local frames = {
         "PartyMemberFrame1",
-		"PartyMemberFrame2",
-		"PartyMemberFrame3",
-		"PartyMemberFrame4",
+        "PartyMemberFrame2",
+        "PartyMemberFrame3",
+        "PartyMemberFrame4",
         --"PartyMemberFrame5",
-		"PartyMemberFrame1PetFrame",
-		"PartyMemberFrame2PetFrame",
-		"PartyMemberFrame3PetFrame",
+        "PartyMemberFrame1PetFrame",
+        "PartyMemberFrame2PetFrame",
+        "PartyMemberFrame3PetFrame",
         "PartyMemberFrame4PetFrame",
         --"PartyMemberFrame5PetFrame",
     }

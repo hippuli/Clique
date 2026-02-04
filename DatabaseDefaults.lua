@@ -1,10 +1,21 @@
-local addonName, addon = ...
-local L = addon.L
+--[[-------------------------------------------------------------------
+--  Clique - Copyright 2006-2024 - James N. Whitehead II
+-------------------------------------------------------------------]] ---
+
+---@class CliqueAddon
+local addon = select(2, ...)
 
 addon.defaults = {
     char = {
+        disableInHousing = true,
         blacklist = {},
         blizzframes = {
+            -- Fix the health and mana bars
+            statusBarFix = true,
+            -- Remove the menu action from all Blizzard frames
+            wipeMenuAction = false,
+
+            -- Default frames enabled
             PlayerFrame = true,
             PetFrame = true,
             TargetFrame = true,
@@ -17,7 +28,7 @@ addon.defaults = {
             compactparty = true,
             boss = true,
         },
-		stopcastingfix = false,
+        stopcastingfix = false,
     },
     profile = {
         bindings = {
