@@ -114,6 +114,11 @@ function addon:SetupUnitFrameRegistry()
     -- Original frame attributes, restored on unregister
     self.proxyBackup = {}
 
+    -- Per-frame SetBindingClick targets for key binds; see docs/attributes.md
+    self.keyProxies = {}
+    self.keyProxyPool = {}
+    self.keyProxyCount = 0
+
     -- Queue for frame registration
     self.regqueue = {}
     -- Queue for frame unregistration
@@ -259,8 +264,7 @@ function addon:SetupSecureHeader()
                 if not InCombatLockdown() and not self:IsFrameBlacklisted(button) then
                     local proxy = self:GetOrCreateProxy(button)
                     self:SetupFrameClickRouting(button, proxy)
-                    self.header:SetFrameRef("cliquesetup_button", proxy)
-                    self.header:Execute(self.header:GetAttribute("setup_clicks"), proxy)
+                    self:StampProxySetup(button, proxy)
                 end
             end
         elseif name == "export_unregister" and type(value) ~= nil then
@@ -270,8 +274,7 @@ function addon:SetupSecureHeader()
                 if button then
                     local proxy = self.proxies[button]
                     if proxy then
-                        self.header:SetFrameRef("cliquesetup_button", proxy)
-                        self.header:Execute(self.header:GetAttribute("remove_clicks"), proxy)
+                        self:RemoveProxySetup(button, proxy)
                         self:TeardownFrameClickRouting(button)
                     end
                 end
@@ -359,8 +362,7 @@ function addon:LeavingCombat()
         if not self.proxies[frame] and not self:IsFrameBlacklisted(frame) then
             local proxy = self:GetOrCreateProxy(frame)
             self:SetupFrameClickRouting(frame, proxy)
-            self.header:SetFrameRef("cliquesetup_button", proxy)
-            self.header:Execute(self.header:GetAttribute("setup_clicks"), proxy)
+            self:StampProxySetup(frame, proxy)
         end
     end
 

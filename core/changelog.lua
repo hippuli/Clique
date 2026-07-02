@@ -28,6 +28,13 @@ addon.changelogPinned = {
 -- hasn't seen yet (see ShouldAutoShowChangelog).
 addon.changelog = {
     {
+        version = "5.0.9",
+        date    = "2026-06-26",
+        items = {
+            "Fixed key bindings on unit frames always triggering on key release, ignoring the Down/Up/Both \"Trigger bindings on\" setting. They now fire on the edge you've chosen, the same as click bindings.",
+        },
+    },
+    {
         version  = "5.0.8",
         date     = "2026-06-25",
         autoShow = false,

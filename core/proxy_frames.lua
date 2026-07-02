@@ -62,7 +62,34 @@ function addon:GetOrCreateProxy(frame)
 
     self.proxies[frame] = proxy
     self:RegisterProxySecure(proxy)
+    self:GetOrCreateKeyProxy(frame)
     return proxy
+end
+
+-- Separate SetBindingClick target so key binds can honor the direction setting via
+-- useOnKeyDown without disturbing the up-pinned click proxy. See docs/attributes.md.
+function addon:GetOrCreateKeyProxy(frame)
+    if self.keyProxies[frame] then return self.keyProxies[frame] end
+
+    local keyProxy = self.keyProxyPool[frame]
+    if not keyProxy then
+        self.keyProxyCount = self.keyProxyCount + 1
+        local keyProxyName = "CliqueKeyProxy" .. self.keyProxyCount
+        keyProxy = CreateFrame("Button", keyProxyName, frame, "SecureActionButtonTemplate")
+        keyProxy.parentName = frame:GetName()
+        self.keyProxyPool[frame] = keyProxy
+    end
+
+    keyProxy:SetAttribute("useparent-unit", true)
+    keyProxy:SetAttribute("useOnKeyDown", self:UseActionOnKeyDown())
+    keyProxy:RegisterForClicks(self:GetButtonDirections())
+    if self:IsGamePadEnabled() then
+        keyProxy:EnableGamePadButton(true)
+    end
+
+    self.keyProxies[frame] = keyProxy
+    self:RegisterProxySecure(keyProxy)
+    return keyProxy
 end
 
 -- Tracks the proxy in the header's secure `proxies` table so setup_clicks/
@@ -116,6 +143,11 @@ local function writeRouting(frame, proxy)
         setRouting(frame, attr, value == PROXY and proxy or value)
     end
     frame:SetAttribute("clique_proxyname", proxy:GetName())
+
+    local keyProxy = addon.keyProxies[frame]
+    if keyProxy then
+        frame:SetAttribute("clique_keyproxyname", keyProxy:GetName())
+    end
 
     -- A frame's own shift-type2="togglemenu" outranks our *type* wildcard, so stamp
     -- the specific attribute for every modified click we bind.
@@ -193,4 +225,10 @@ function addon:TeardownFrameClickRouting(frame)
         self:UnregisterProxySecure(proxy)
     end
     self.proxies[frame] = nil
+
+    local keyProxy = self.keyProxies[frame]
+    if keyProxy then
+        self:UnregisterProxySecure(keyProxy)
+    end
+    self.keyProxies[frame] = nil
 end
