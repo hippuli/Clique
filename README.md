@@ -1,3 +1,21 @@
+<!-- wowup-repackaging-note -->
+> [!NOTE]
+> This repository is an unofficial repackaging of the original CurseForge addon,
+> maintained to make installation and update management available through WowUp.
+>
+> I am not the original author and do not claim ownership of the addon. Credit and
+> ownership remain with the original author and other contributors.
+>
+> Original project: <https://www.curseforge.com/wow/addons/clique>
+>
+> If you are the original author or current maintainer and would like this
+> repository removed or made private, please contact me through GitHub. I will
+> honor the request.
+
+---
+
+## Original README
+
 Clique is a simple addon that enables powerful click-casting and hover-casting on your unit frames and in the 3D game world. You can bind virtually any mouse or keyboard combination to a spell or macro. In it's normal configuration this enables you to use the bindings over your unit frames in order to cast spells directly on that unit. This allows you to more quickly select both the spell to cast, and the target of the spell without requiring an extra click.
 
 To begin with Clique, open your spellbook and click on the new tab that is shown there. You can also open the configuration GUI by running the /clique slash command. From this binding interface you can add, remove and alter any of your Clique bindings. You will be unable to make these changes when you are in combat due to limitations in the Blizzard API.
